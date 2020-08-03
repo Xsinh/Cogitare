@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.implozia.cogitare.MainFragment"
+        android:name="com.implozia.cogitare.ui.today.TodayFragment"
         android:label="fragment_main"
-        tools:layout="@layout/fragment_main" />
+        tools:layout="@layout/fragment_today" />
 </navigation>

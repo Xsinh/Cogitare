@@ -7,8 +7,12 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
 
+        <item name="android:background">@color/colorGrey</item>
+
         <item name="android:statusBarColor">@color/colorPrimaryDark</item>
         <item name="android:windowLightStatusBar">true</item>
+
+        <item name="android:navigationBarColor">@color/colorGrey</item>
     </style>
 
     <style name="AppTheme.TransparentTheme">
