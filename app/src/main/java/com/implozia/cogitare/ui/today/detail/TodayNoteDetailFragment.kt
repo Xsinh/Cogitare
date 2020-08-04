@@ -1,4 +1,4 @@
-package com.implozia.cogitare.ui.today
+package com.implozia.cogitare.ui.today.detail
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,19 +8,19 @@ import androidx.lifecycle.ViewModelProvider
 import com.implozia.cogitare.R
 import com.implozia.cogitare.ui.base.ScopedFragment
 
-class TodayFragment : ScopedFragment() {
+class TodayNoteDetailFragment : ScopedFragment() {
 
     companion object {
-        fun newInstance() = TodayFragment()
+        fun newInstance() = TodayNoteDetailFragment()
     }
 
-    private lateinit var viewModel: TodayViewModel
+    private lateinit var viewModel: TodayNoteDetailViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
-            = inflater.inflate(R.layout.today_fragment, container, false)
+            = inflater.inflate(R.layout.today_note_detail_fragment, container, false)
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(TodayViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(TodayNoteDetailViewModel::class.java)
     }
 }
