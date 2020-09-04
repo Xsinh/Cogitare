@@ -17,7 +17,7 @@ class TodayNoteFragment : ScopedFragment() {
     private lateinit var noteViewModel: TodayNoteViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
-            = inflater.inflate(R.layout.today_note_fragment, container, false)
+            = inflater.inflate(R.layout.activity_main, container, false)
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

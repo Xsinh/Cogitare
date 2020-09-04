@@ -9,5 +9,5 @@
         android:id="@+id/mainFragment"
         android:name="com.implozia.cogitare.ui.today.TodayNoteFragment"
         android:label="fragment_main"
-        tools:layout="@layout/today_note_fragment" />
+        tools:layout="@layout/today_note_list_fragment" />
 </navigation>
