@@ -2,29 +2,29 @@ package com.implozia.cogitare.data
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.implozia.cogitare.model.NoteModel
+import com.implozia.cogitare.model.Note
 
 @Dao
 interface NoteDao {
-    @Query("SELECT * FROM NoteModel")
-    fun getAll(): List<NoteModel>
+    @Query("SELECT * FROM Note")
+    fun getAll(): List<Note>
 
-    @Query("SELECT * FROM NoteModel")
-    fun getAllLiveData(): LiveData<List<NoteModel>>
+    @Query("SELECT * FROM Note")
+    fun getAllLiveData(): LiveData<List<Note>>
 
-    @Query("SELECT * FROM NoteModel WHERE uid IN (:noteIds)")
-    fun loadAllByIds(noteIds: IntArray): List<NoteModel>
+    @Query("SELECT * FROM Note WHERE uid IN (:noteIds)")
+    fun loadAllByIds(noteIds: IntArray): List<Note>
 
-    @Query("SELECT * FROM NoteModel WHERE uid = :uid LIMIT 1")
-    fun findById(uid: Int): NoteModel
+    @Query("SELECT * FROM Note WHERE uid = :uid LIMIT 1")
+    fun findById(uid: Int): Note
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(note: NoteModel)
+    fun insert(note: Note)
 
     @Update
-    fun update(note: NoteModel)
+    fun update(note: Note)
 
     @Delete
-    fun delete(note: NoteModel)
+    fun delete(note: Note)
 
 }

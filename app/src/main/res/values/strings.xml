@@ -1,6 +1,9 @@
 <resources>
-    <string name="app_name">Cogitare</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="completed">Готово</string>
+    <string name="app_name">todolist</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="note_text">Введите текст заметки</string>
+    <string name="note_details_title">Заметка</string>
+    <string name="save">Сохранить</string>
+    <string name="completed">Выполнение</string>
 </resources>
