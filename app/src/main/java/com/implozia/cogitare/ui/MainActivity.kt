@@ -58,7 +58,6 @@ class MainActivity : AppCompatActivity() {
             imm.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
         }
 
-
         recyclerView = findViewById(R.id.list)
         val linearLayoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
 

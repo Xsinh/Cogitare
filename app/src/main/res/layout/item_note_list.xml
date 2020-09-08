@@ -29,6 +29,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
-        android:src="@android:drawable/ic_notification_clear_all"/>
+        android:src="@drawable/cross_icon"/>
 
 </LinearLayout>
