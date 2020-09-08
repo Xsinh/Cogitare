@@ -1,6 +1,5 @@
 package com.implozia.cogitare.model.adapter
 
-import android.app.Activity
 import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
@@ -8,19 +7,20 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.CompoundButton
 import android.widget.TextView
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SortedList
 import com.implozia.cogitare.App.Companion.instance
 import com.implozia.cogitare.R
 import com.implozia.cogitare.model.Note
 import com.implozia.cogitare.model.adapter.Adapter.NoteViewHolder
-import com.implozia.cogitare.ui.NoteDetailsActivity
+import com.implozia.cogitare.ui.NoteDetailDialog
 
-class Adapter : RecyclerView.Adapter<NoteViewHolder>() {
+class Adapter(val fragmentManager: FragmentManager) : RecyclerView.Adapter<NoteViewHolder>() {
     private val sortedList: SortedList<Note>
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         return NoteViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.item_note_list, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.item_note_list, parent, false),fragmentManager = fragmentManager
         )
     }
 
@@ -36,7 +36,7 @@ class Adapter : RecyclerView.Adapter<NoteViewHolder>() {
         sortedList.replaceAll(notes!!)
     }
 
-    class NoteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class NoteViewHolder(itemView: View, val fragmentManager: FragmentManager) : RecyclerView.ViewHolder(itemView) {
         var noteText: TextView
         var completed: CheckBox
         var delete: View
@@ -64,10 +64,7 @@ class Adapter : RecyclerView.Adapter<NoteViewHolder>() {
             completed = itemView.findViewById(R.id.completed)
             delete = itemView.findViewById(R.id.delete)
             itemView.setOnClickListener { view: View? ->
-                NoteDetailsActivity.start(
-                    itemView.context as Activity,
-                    note
-                )
+                NoteDetailDialog(note?.text.toString()).show(fragmentManager, "popup")
             }
             delete.setOnClickListener { view: View? ->
                 instance!!.noteDao.delete(

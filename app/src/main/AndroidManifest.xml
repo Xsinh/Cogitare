@@ -20,7 +20,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.NoteDetailsActivity"/>
+        <activity android:name=".ui.NoteDetailDialog"/>
     </application>
 
 </manifest>
