@@ -10,17 +10,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:cardCornerRadius="8dp"
-        app:cardBackgroundColor="@color/white"
         android:id="@+id/cardView"
-        tools:layout_editor_absoluteX="74dp" app:layout_constraintBottom_toBottomOf="parent">
+        tools:layout_editor_absoluteX="74dp"
+        app:layout_constraintBottom_toBottomOf="parent">
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:background="@drawable/rounded_dialog"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/closeNote"
                 android:src="@drawable/cross_icon"
-                android:background="@color/colorGrey"
+                android:background="@color/white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginEnd="16dp"
@@ -28,7 +29,7 @@
 
             <TextView
                 android:id="@+id/noteDetail"
-                android:text="suka bleat"
+                android:background="@color/white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"
