@@ -1,34 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="horizontal"
     android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:gravity="center">
+    android:paddingRight="16dp">
 
     <TextView
-        android:id="@+id/note_text"
+        android:id="@+id/noteText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:minHeight="64dp"
         android:gravity="center_vertical"
-        tools:text="some text for testing"/>
+        android:minHeight="64dp"
+        tools:text="some text for testing" />
 
     <CheckBox
         android:id="@+id/completed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/completed"
-        android:layout_marginLeft="8dp"/>
+        android:layout_marginStart="8dp"
+        android:text="@string/completed" />
 
     <ImageView
         android:id="@+id/delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:src="@drawable/cross_icon"/>
-
+        android:layout_marginStart="16dp"
+        android:src="@drawable/cross_icon" />
 </LinearLayout>

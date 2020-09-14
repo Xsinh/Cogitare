@@ -69,7 +69,7 @@ class NoteAdapter(val fragmentManager: FragmentManager, private val noteReposito
         }
 
         init {
-            noteText = itemView.findViewById(R.id.note_text)
+            noteText = itemView.findViewById(R.id.noteText)
             completed = itemView.findViewById(R.id.completed)
             delete = itemView.findViewById(R.id.delete)
             itemView.setOnClickListener { view: View? ->
@@ -110,7 +110,7 @@ class NoteAdapter(val fragmentManager: FragmentManager, private val noteReposito
             }
 
             override fun areContentsTheSame(oldItem: Note, newItem: Note): Boolean {
-                return oldItem.equals(newItem)
+                return oldItem == newItem
             }
 
             override fun areItemsTheSame(item1: Note, item2: Note): Boolean {
