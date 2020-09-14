@@ -8,6 +8,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.SortedList
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.implozia.cogitare.R
 import com.implozia.cogitare.data.repository.NoteRepository
@@ -32,6 +33,8 @@ class MainActivity : AppCompatActivity(), KodeinAware {
     private val mainViewModelFactory: MainViewModelFactory by instance()
     private val noteRepository: NoteRepository by instance()
 
+    private lateinit var sortedList: SortedList<Note>
+
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
 
     private lateinit var note: Note
@@ -55,12 +58,45 @@ class MainActivity : AppCompatActivity(), KodeinAware {
         }
     }
 
-    private suspend fun bindUI(){
+    private suspend fun bindUI() {
         val futureNoteEntries = viewModel.noteEntries()
-        
+        sortedList = SortedList(Note::class.java, object : SortedList.Callback<Note>() {
+            override fun compare(o1: Note, o2: Note): Int {
+                if (!o2.done && o1.done) {
+                    return 1
+                }
+                return if (o2.done && !o1.done) {
+                    -1
+                } else (o2.timestamp - o1.timestamp).toInt()
+            }
+
+            override fun onChanged(position: Int, count: Int) {
+                recyclerView.adapter?.notifyItemRangeChanged(position, count)
+            }
+
+            override fun areContentsTheSame(oldItem: Note, newItem: Note): Boolean {
+                return oldItem == newItem
+            }
+
+            override fun areItemsTheSame(item1: Note, item2: Note): Boolean {
+                return item1.uid == item2.uid
+            }
+
+            override fun onInserted(position: Int, count: Int) {
+                recyclerView.adapter?.notifyItemRangeInserted(position, count)
+            }
+
+            override fun onRemoved(position: Int, count: Int) {
+                recyclerView.adapter?.notifyItemRangeRemoved(position, count)
+            }
+
+            override fun onMoved(fromPosition: Int, toPosition: Int) {
+                recyclerView.adapter?.notifyItemMoved(fromPosition, toPosition)
+            }
+        })
         futureNoteEntries.observe(
             this,
-            Observer {noteEntries ->
+            Observer { noteEntries ->
                 initRecyclerView(noteEntries.toFutureNoteItems())
             }
         )
@@ -96,15 +132,14 @@ class MainActivity : AppCompatActivity(), KodeinAware {
                     swipeHint.visibility = View.VISIBLE
             }
 
-            override fun onSlide(p0: View, p1: Float) {
-
-            }
+            override fun onSlide(p0: View, p1: Float) = Unit
         })
     }
 
-    private fun initRecyclerView(items: List<NoteItem>){
+    private fun initRecyclerView(items: List<NoteItem>) {
         val groupAdapter = GroupAdapter<ViewHolder>().apply {
             addAll(items)
+            recyclerView.adapter
         }
         recyclerView.apply {
             layoutManager = LinearLayoutManager(this.context)
@@ -116,10 +151,8 @@ class MainActivity : AppCompatActivity(), KodeinAware {
             }
         }
     }
-    
-    private fun List<Note>.toFutureNoteItems(): List<NoteItem> {
-        return this.map { 
-            NoteItem(noteRepository,it)
-        }
+
+    private fun List<Note>.toFutureNoteItems(): List<NoteItem> = this.map {
+        NoteItem(noteRepository, it, supportFragmentManager)
     }
 }
