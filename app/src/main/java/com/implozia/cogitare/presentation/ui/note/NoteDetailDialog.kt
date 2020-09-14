@@ -1,4 +1,4 @@
-package com.implozia.cogitare.ui
+package com.implozia.cogitare.presentation.ui.note
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.detail_note_dialog_fragment.*
 
 
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
-class NoteDetailDialog(val noteText: String) : DialogFragment() {
+class NoteDetailDialog(private val noteText: String) : DialogFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,

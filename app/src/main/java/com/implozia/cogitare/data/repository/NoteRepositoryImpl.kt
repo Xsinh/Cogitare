@@ -1,7 +1,7 @@
 package com.implozia.cogitare.data.repository
 
 import androidx.lifecycle.LiveData
-import com.implozia.cogitare.data.NoteDao
+import com.implozia.cogitare.data.db.NoteDao
 import com.implozia.cogitare.model.Note
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

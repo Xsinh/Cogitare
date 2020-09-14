@@ -1,4 +1,4 @@
-package com.implozia.cogitare.model.adapter
+package com.implozia.cogitare.presentation.adapter
 
 import android.graphics.Paint
 import android.view.LayoutInflater
@@ -13,13 +13,13 @@ import androidx.recyclerview.widget.SortedList
 import com.implozia.cogitare.R
 import com.implozia.cogitare.data.repository.NoteRepository
 import com.implozia.cogitare.model.Note
-import com.implozia.cogitare.model.adapter.Adapter.NoteViewHolder
-import com.implozia.cogitare.ui.NoteDetailDialog
+import com.implozia.cogitare.presentation.adapter.NoteAdapter.NoteViewHolder
+import com.implozia.cogitare.presentation.ui.note.NoteDetailDialog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class Adapter(val fragmentManager: FragmentManager, private val noteRepository: NoteRepository) : RecyclerView.Adapter<NoteViewHolder>() {
+class NoteAdapter(val fragmentManager: FragmentManager, private val noteRepository: NoteRepository) : RecyclerView.Adapter<NoteViewHolder>() {
     private val sortedList: SortedList<Note>
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         return NoteViewHolder(

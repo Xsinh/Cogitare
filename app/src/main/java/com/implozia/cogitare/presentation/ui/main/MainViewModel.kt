@@ -1,4 +1,4 @@
-package com.implozia.cogitare.ui
+package com.implozia.cogitare.presentation.ui.main
 
 import androidx.lifecycle.ViewModel
 import com.implozia.cogitare.data.repository.NoteRepository

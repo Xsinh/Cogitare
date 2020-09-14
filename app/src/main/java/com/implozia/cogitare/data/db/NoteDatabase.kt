@@ -1,4 +1,4 @@
-package com.implozia.cogitare.data
+package com.implozia.cogitare.data.db
 
 import android.content.Context
 import androidx.room.Database

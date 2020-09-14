@@ -1,4 +1,4 @@
-package com.implozia.cogitare.ui
+package com.implozia.cogitare.presentation.ui.main
 
 import android.os.Bundle
 import android.view.View
@@ -11,11 +11,10 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.implozia.cogitare.App
 import com.implozia.cogitare.R
 import com.implozia.cogitare.data.repository.NoteRepository
 import com.implozia.cogitare.model.Note
-import com.implozia.cogitare.model.adapter.Adapter
+import com.implozia.cogitare.presentation.adapter.NoteAdapter
 import kotlinx.android.synthetic.main.activity_note_details.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -82,7 +81,7 @@ class MainActivity : AppCompatActivity(), KodeinAware {
         recyclerView.layoutManager = linearLayoutManager
         recyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
 
-        val adapter = Adapter(fragmentManager = supportFragmentManager, noteRepository)
+        val adapter = NoteAdapter(fragmentManager = supportFragmentManager, noteRepository)
         recyclerView.adapter = adapter
 
 
