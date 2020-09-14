@@ -48,30 +48,23 @@ class NoteItem(
     private fun ViewHolder.updateNoteText() = when {
         note.done ->
             noteText.paintFlags = noteText.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-
         else ->
             noteText.paintFlags = noteText.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
-
     }
 
-
-    private fun ViewHolder.delete() {
-        delete.setOnClickListener {
-            GlobalScope.launch(Dispatchers.IO) {
-                noteRepository.delete(
-                    note
-                )
-            }
+    private fun ViewHolder.delete() = delete.setOnClickListener {
+        GlobalScope.launch(Dispatchers.IO) {
+            noteRepository.delete(
+                note
+            )
         }
     }
 
-    private fun ViewHolder.completed() {
-        delete.setOnClickListener {
-            GlobalScope.launch(Dispatchers.IO) {
-                noteRepository.delete(
-                    note
-                )
-            }
+    private fun ViewHolder.completed() = delete.setOnClickListener {
+        GlobalScope.launch(Dispatchers.IO) {
+            noteRepository.delete(
+                note
+            )
         }
     }
 }

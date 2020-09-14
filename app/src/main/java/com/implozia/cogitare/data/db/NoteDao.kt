@@ -9,9 +9,6 @@ interface NoteDao {
     @Query("SELECT * FROM Note")
     fun getAllNote(): LiveData<List<Note>>
 
-//    @Query("SELECT * FROM Note")
-//    fun getAllLiveData(): LiveData<List<Note>>
-
     @Query("SELECT * FROM Note WHERE uid IN (:noteIds)")
     fun loadAllByIds(noteIds: IntArray): List<Note>
 

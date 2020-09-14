@@ -19,7 +19,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class NoteAdapter(val fragmentManager: FragmentManager, private val noteRepository: NoteRepository) : RecyclerView.Adapter<NoteViewHolder>() {
+@Deprecated("Migrating on xwray:groupie")
+class NoteAdapter(private val fragmentManager: FragmentManager, private val noteRepository: NoteRepository) : RecyclerView.Adapter<NoteViewHolder>() {
     private val sortedList: SortedList<Note>
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         return NoteViewHolder(

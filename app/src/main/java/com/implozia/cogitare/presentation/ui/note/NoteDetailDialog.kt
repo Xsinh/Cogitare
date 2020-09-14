@@ -30,7 +30,7 @@ class NoteDetailDialog(private val noteText: String) : DialogFragment() {
 
     override fun onResume() {
         super.onResume()
-        val width  = activity?.resources?.getDimensionPixelSize(R.dimen.popup_width)
+        val width = activity?.resources?.getDimensionPixelSize(R.dimen.popup_width)
         val height = activity?.resources?.getDimensionPixelSize(R.dimen.popup_height)
 
         if (width != null && height != null) {

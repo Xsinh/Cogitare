@@ -8,15 +8,10 @@ import androidx.room.PrimaryKey
 data class Note (
     @PrimaryKey(autoGenerate = true)
     var uid: Int = 0,
-
-
     @ColumnInfo(name = "text")
     var text: String? = null,
-
-
     @ColumnInfo(name = "timestamp")
     var timestamp: Long = 0,
-
     @ColumnInfo(name = "done")
     var done: Boolean = false
 )

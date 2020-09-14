@@ -125,12 +125,12 @@ class MainActivity : AppCompatActivity(), KodeinAware {
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet)
         bottomSheetBehavior.setBottomSheetCallback(object :
             BottomSheetBehavior.BottomSheetCallback() {
-            override fun onStateChanged(p0: View, p1: Int) {
-                if (bottomSheetBehavior.state != BottomSheetBehavior.STATE_COLLAPSED)
-                    swipeHint.visibility = View.INVISIBLE
-                else
-                    swipeHint.visibility = View.VISIBLE
+            override fun onStateChanged(p0: View, p1: Int) = when {
+                bottomSheetBehavior.state != BottomSheetBehavior.STATE_COLLAPSED -> swipeHint.visibility =
+                    View.INVISIBLE
+                else -> swipeHint.visibility = View.VISIBLE
             }
+
 
             override fun onSlide(p0: View, p1: Float) = Unit
         })

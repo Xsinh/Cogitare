@@ -7,16 +7,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class NoteRepositoryImpl(private val noteDao: NoteDao) : NoteRepository {
-
     override suspend fun getAllNote(): LiveData<List<Note>> = withContext(Dispatchers.IO) {
-            noteDao.getAllNote()
-        }
-
+        noteDao.getAllNote()
+    }
 
     override suspend fun update(note: Note) = withContext(Dispatchers.IO) {
         noteDao.update(note)
     }
-
 
     override suspend fun delete(note: Note) = withContext(Dispatchers.IO) {
         noteDao.delete(note)
