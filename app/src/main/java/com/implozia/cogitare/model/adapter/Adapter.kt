@@ -10,17 +10,22 @@ import android.widget.TextView
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SortedList
-import com.implozia.cogitare.App.Companion.instance
 import com.implozia.cogitare.R
+import com.implozia.cogitare.data.repository.NoteRepository
 import com.implozia.cogitare.model.Note
 import com.implozia.cogitare.model.adapter.Adapter.NoteViewHolder
 import com.implozia.cogitare.ui.NoteDetailDialog
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
-class Adapter(val fragmentManager: FragmentManager) : RecyclerView.Adapter<NoteViewHolder>() {
+class Adapter(val fragmentManager: FragmentManager, private val noteRepository: NoteRepository) : RecyclerView.Adapter<NoteViewHolder>() {
     private val sortedList: SortedList<Note>
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         return NoteViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.item_note_list, parent, false),fragmentManager = fragmentManager
+            LayoutInflater.from(parent.context).inflate(R.layout.item_note_list, parent, false),
+            fragmentManager = fragmentManager,
+            noteRepository
         )
     }
 
@@ -36,7 +41,11 @@ class Adapter(val fragmentManager: FragmentManager) : RecyclerView.Adapter<NoteV
         sortedList.replaceAll(notes!!)
     }
 
-    class NoteViewHolder(itemView: View, val fragmentManager: FragmentManager) : RecyclerView.ViewHolder(itemView) {
+    class NoteViewHolder(
+        itemView: View,
+        val fragmentManager: FragmentManager,
+        private val noteRepository: NoteRepository
+    ) : RecyclerView.ViewHolder(itemView) {
         var noteText: TextView
         var completed: CheckBox
         var delete: View
@@ -67,14 +76,18 @@ class Adapter(val fragmentManager: FragmentManager) : RecyclerView.Adapter<NoteV
                 NoteDetailDialog(note?.text.toString()).show(fragmentManager, "popup")
             }
             delete.setOnClickListener { view: View? ->
-                instance!!.noteDao.delete(
-                    note!!
-                )
+                GlobalScope.launch(Dispatchers.IO) {
+                    noteRepository.delete(
+                        note!!
+                    )
+                }
             }
             completed.setOnCheckedChangeListener { compoundButton: CompoundButton?, checked: Boolean ->
                 if (!silentUpdate) {
                     note!!.done = checked
-                    instance!!.noteDao.update(note!!)
+                    GlobalScope.launch(Dispatchers.IO) {
+                        noteRepository.update(note!!)
+                    }
                 }
                 updateStrokeOut()
             }

@@ -13,22 +13,38 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.implozia.cogitare.App
 import com.implozia.cogitare.R
+import com.implozia.cogitare.data.repository.NoteRepository
 import com.implozia.cogitare.model.Note
 import com.implozia.cogitare.model.adapter.Adapter
 import kotlinx.android.synthetic.main.activity_note_details.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import org.kodein.di.KodeinAware
+import org.kodein.di.android.closestKodein
+import org.kodein.di.generic.instance
 
 
 @Suppress("UNCHECKED_CAST")
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), KodeinAware {
+    override val kodein by closestKodein()
+    private val mainViewModelFactory: MainViewModelFactory by instance()
+    private val noteRepository: NoteRepository by instance()
+
     private lateinit var recyclerView: RecyclerView
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
 
     private lateinit var note: Note
     private lateinit var imm: InputMethodManager
+    private lateinit var viewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        viewModel = ViewModelProvider(this, mainViewModelFactory).get(
+            MainViewModel::class.java
+        )
 
         note = Note()
         imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
@@ -52,8 +68,10 @@ class MainActivity : AppCompatActivity() {
             note.text = editTextOfNote.text.toString()
             note.done = false
             note.timestamp = System.currentTimeMillis()
-            App.instance!!.noteDao.update(note)
-            App.instance!!.noteDao.insert(note)
+            GlobalScope.launch(Dispatchers.IO) {
+                viewModel.updateEntries(note)
+                viewModel.insertEntries(note)
+            }
             editTextOfNote.text.clear()
             imm.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
         }
@@ -64,14 +82,14 @@ class MainActivity : AppCompatActivity() {
         recyclerView.layoutManager = linearLayoutManager
         recyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
 
-        val adapter = Adapter(fragmentManager = supportFragmentManager)
+        val adapter = Adapter(fragmentManager = supportFragmentManager, noteRepository)
         recyclerView.adapter = adapter
 
-        val mainViewModel = ViewModelProvider(this).get(
-            MainViewModel::class.java
-        )
-        mainViewModel.noteLiveData.observe(
-            this,
-            Observer<List<Note?>> { notes: List<Note?>? -> adapter.setItems(notes as List<Note>?) })
+
+        GlobalScope.launch(Dispatchers.Main) {
+            viewModel.noteEntries().observe(
+                this@MainActivity,
+                Observer { notes: List<Note> -> adapter.setItems(notes as List<Note>?) })
+        }
     }
 }

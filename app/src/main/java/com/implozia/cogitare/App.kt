@@ -4,25 +4,25 @@ import android.app.Application
 import androidx.room.Room
 import com.implozia.cogitare.data.NoteDao
 import com.implozia.cogitare.data.NoteDatabase
+import com.implozia.cogitare.data.repository.NoteRepository
+import com.implozia.cogitare.data.repository.NoteRepositoryImpl
+import com.implozia.cogitare.ui.MainViewModelFactory
+import org.kodein.di.Kodein
+import org.kodein.di.KodeinAware
+import org.kodein.di.android.x.androidXModule
+import org.kodein.di.generic.bind
+import org.kodein.di.generic.instance
+import org.kodein.di.generic.provider
+import org.kodein.di.generic.singleton
 
-class App : Application() {
-    private lateinit var database: NoteDatabase
-    lateinit var noteDao: NoteDao
-    override fun onCreate() {
-        super.onCreate()
-        instance = this
-        database = Room.databaseBuilder(
-            applicationContext,
-            NoteDatabase::class.java, "app-db-name"
-        )
-            .allowMainThreadQueries()
-            .build()
-        noteDao = database.noteDao()
-    }
+class App : Application(), KodeinAware {
+    override val kodein = Kodein.lazy {
+        import(androidXModule(this@App))
 
-    companion object {
-        @JvmStatic
-        var instance: App? = null
-            private set
+        bind() from singleton { NoteDatabase(instance()) }
+        bind() from singleton { instance<NoteDatabase>().noteDao() }
+
+        bind<NoteRepository>() with singleton { NoteRepositoryImpl(instance()) }
+        bind() from provider { MainViewModelFactory(instance()) }
     }
 }
