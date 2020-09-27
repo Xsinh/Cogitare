@@ -33,8 +33,6 @@ class MainActivity : AppCompatActivity(), KodeinAware {
     private val mainViewModelFactory: MainViewModelFactory by instance()
     private val noteRepository: NoteRepository by instance()
 
-    private lateinit var sortedList: SortedList<Note>
-
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
 
     private lateinit var note: Note
@@ -60,43 +58,8 @@ class MainActivity : AppCompatActivity(), KodeinAware {
 
     private suspend fun bindUI() {
         val futureNoteEntries = viewModel.noteEntries()
-        sortedList = SortedList(Note::class.java, object : SortedList.Callback<Note>() {
-            override fun compare(o1: Note, o2: Note): Int {
-                if (!o2.done && o1.done) {
-                    return 1
-                }
-                return if (o2.done && !o1.done) {
-                    -1
-                } else (o2.timestamp - o1.timestamp).toInt()
-            }
-
-            override fun onChanged(position: Int, count: Int) {
-                recyclerView.adapter?.notifyItemRangeChanged(position, count)
-            }
-
-            override fun areContentsTheSame(oldItem: Note, newItem: Note): Boolean {
-                return oldItem == newItem
-            }
-
-            override fun areItemsTheSame(item1: Note, item2: Note): Boolean {
-                return item1.uid == item2.uid
-            }
-
-            override fun onInserted(position: Int, count: Int) {
-                recyclerView.adapter?.notifyItemRangeInserted(position, count)
-            }
-
-            override fun onRemoved(position: Int, count: Int) {
-                recyclerView.adapter?.notifyItemRangeRemoved(position, count)
-            }
-
-            override fun onMoved(fromPosition: Int, toPosition: Int) {
-                recyclerView.adapter?.notifyItemMoved(fromPosition, toPosition)
-            }
-        })
         futureNoteEntries.observe(
-            this,
-            Observer { noteEntries ->
+            this, { noteEntries ->
                 initRecyclerView(noteEntries.toFutureNoteItems())
             }
         )
@@ -112,10 +75,12 @@ class MainActivity : AppCompatActivity(), KodeinAware {
             note.text = editTextOfNote.text.toString()
             note.done = false
             note.timestamp = System.currentTimeMillis()
+
             GlobalScope.launch(Dispatchers.IO) {
                 viewModel.updateEntries(note)
                 viewModel.insertEntries(note)
             }
+
             editTextOfNote.text.clear()
             imm.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
         }
@@ -130,7 +95,6 @@ class MainActivity : AppCompatActivity(), KodeinAware {
                     View.INVISIBLE
                 else -> swipeHint.visibility = View.VISIBLE
             }
-
 
             override fun onSlide(p0: View, p1: Float) = Unit
         })

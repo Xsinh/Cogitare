@@ -19,7 +19,6 @@ class NoteRepositoryImpl(private val noteDao: NoteDao) : NoteRepository {
         noteDao.delete(note)
     }
 
-
     override suspend fun insert(note: Note) = withContext(Dispatchers.IO) {
         noteDao.insert(note)
     }
